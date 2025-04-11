@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Resultados</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/MIS.css') }}">
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">Análisis Incidencias</a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/resultados" class="active">Resultados</a></li>
+        <li><a href="/practica2">Práctica 2</a></li>
+        <li><a href="/vulnerabilidades">Vulnerabilidades</a></li>
+    </ul>
+</header>
+
+<section class="top">
+    <h2 id="texto">RESULTADOS</h2>
+</section>
+
+<!-- Contenido principal con las estadísticas -->
+<div class="sec" id="sec" style="text-align: center">
+    <h2>Resumen Estadístico</h2>
+    <p>
+       Total de incidencias: <strong>{{ total }}</strong><br>
+       Media de incidencias (sat >=5) por cliente: <strong>{{ media_satis_5|round(2) }}</strong>
+       (Desv: {{ std_satis_5|round(2) }})<br>
+       Media de incidencias por cliente: <strong>{{ media_incid|round(2) }}</strong>
+       (Desv: {{ std_incid|round(2) }})<br>
+       Media de horas por incidencia: <strong>{{ media_horas|round(2) }}</strong>
+       (Desv: {{ std_horas|round(2) }})<br>
+       Mín/Máx de horas totales por empleado: <strong>{{ min_horas }}</strong> / <strong>{{ max_horas }}</strong><br>
+       Mín/Máx de duración (días) de un ticket: <strong>{{ min_duracion }}</strong> / <strong>{{ max_duracion }}</strong><br>
+       Mín/Máx de incidencias atendidas por un empleado: <strong>{{ min_incid_emp }}</strong> / <strong>{{ max_incid_emp }}</strong><br>
+    </p>
+
+    <!-- Sección para mostrar las agrupaciones -->
+    <section class="agrupaciones">
+        <h2>Agrupaciones</h2>
+        {% for key, grupo in agrupaciones.items() %}
+            <div class="agrupacion">
+                <h3>Agrupación por {{ key }}</h3>
+                <h4>Estadísticas:</h4>
+                <ul>
+                    <li>Mediana: {{ grupo.estadisticas.Mediana }}</li>
+                    <li>Media: {{ grupo.estadisticas.Media }}</li>
+                    <li>Varianza: {{ grupo.estadisticas.Varianza }}</li>
+                    <li>Máximo: {{ grupo.estadisticas.Máximo }}</li>
+                    <li>Mínimo: {{ grupo.estadisticas.Mínimo }}</li>
+                </ul>
+                <div>{{ grupo.tabla | safe }}</div>
+            </div>
+        {% endfor %}
+    </section>
+
+
+    <!-- Imágenes o gráficos existentes -->
+    <br>
+    <h2>Gráficos</h2>
+    <img src="{{ url_for('static', filename='images/tiempo_mant.png') }}" alt="Gráfico 1">
+    <img src="{{ url_for('static', filename='images/tipo_incidencia.png') }}" alt="Gráfico 1">
+    <img src="{{ url_for('static', filename='images/critical_clients.png') }}" alt="Gráfico 1">
+    <img src="{{ url_for('static', filename='images/actuaciones_empleado.png') }}" alt="Gráfico 1">
+    <img src="{{ url_for('static', filename='images/actuaciones_semana.png') }}" alt="Gráfico 1">
+</div>
+
+
+<footer class="pie">
+  <div class="pie2">
+    <img class="footer-logo" src="{{ url_for('static', filename='images/SI.png') }}" alt="logo SI">
+    <p class="footer-texto">MIS GROUP 18</p>
+  </div>
+  <div class="derechos-de-autor">
+    Creado por Grupo S18 ©
+  </div>
+</footer>
+
+</body>
+</html>

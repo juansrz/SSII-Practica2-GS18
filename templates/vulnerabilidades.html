@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Vulnerabilidades CVE</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/MIS.css') }}">
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">Análisis Incidencias</a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/resultados">Resultados</a></li>
+        <li><a href="/practica2">Práctica 2</a></li>
+        <li><a href="/vulnerabilidades" class="active">Vulnerabilidades</a></li>
+    </ul>
+</header>
+
+<section class="top">
+    <h2 id="texto">Últimas Vulnerabilidades</h2>
+</section>
+
+<div class="sec" id="sec" style="text-align: center">
+    <p>
+        A continuación se muestran las <strong>10 vulnerabilidades más recientes</strong> publicadas por la comunidad de ciberseguridad (fuente: <a href="https://cve.circl.lu/api/last" target="_blank" style="color: #FFA500;">CIRCL CVE API</a>).
+    </p>
+
+    <div class="agrupaciones">
+        <h2>Últimos CVEs</h2>
+        <table class="agrupacion">
+            <thead>
+                <tr>
+                    <th>CVE ID</th>
+                    <th>Resumen</th>
+                    <th>Fecha de Publicación</th>
+                    <th>CVSS</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for cve in cves %}
+                    <tr>
+                    <td><strong>{{ cve.cve_id }}</strong></td>
+                    <td style="text-align: left;">{{ cve.resumen }}</td>
+                    <td>{{ cve.publicado }}</td>
+                    <td
+                    {% if cve.cvss != "N/A" %}
+                        {% set score = cve.cvss | float %}
+                        class="{% if score < 4 %}cvss-baja{% elif score < 7 %}cvss-media{% elif score < 9 %}cvss-alta{% else %}cvss-critica{% endif %}"
+                        title="{% if score < 4 %}Severidad: Baja{% elif score < 7 %}Severidad: Media{% elif score < 9 %}Severidad: Alta{% else %}Severidad: Crítica{% endif %}"
+                    {% endif %}
+                    >
+                    {{ cve.cvss }}
+                    </td>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    <div class="cvss-legend">
+    <p><strong>Leyenda de colores CVSS:</strong></p>
+    <ul>
+        <li><span class="leyenda baja"></span> Baja (0.0–3.9)</li>
+        <li><span class="leyenda media"></span> Media (4.0–6.9)</li>
+        <li><span class="leyenda alta"></span> Alta (7.0–8.9)</li>
+        <li><span class="leyenda critica"></span> Crítica (9.0–10)</li>
+    </ul>
+</div>
+
+    </div>
+</div>
+
+<footer class="pie">
+  <div class="pie2">
+    <img class="footer-logo" src="{{ url_for('static', filename='images/SI.png') }}" alt="logo SI">
+    <p class="footer-texto">MIS GROUP 18</p>
+  </div>
+  <div class="derechos-de-autor">
+    Creado por Grupo S18 ©
+  </div>
+</footer>
+
+</body>
+</html>

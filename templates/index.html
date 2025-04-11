@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MIS SI G18</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/MIS.css') }}">
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">FLASK GRUPO 18</a>
+    <ul>
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/resultados">Resultados</a></li>
+        <li><a href="/practica2">Práctica 2</a></li>
+        <li><a href="/vulnerabilidades">Vulnerabilidades</a></li>
+    </ul>
+</header>
+
+<section class="top">
+    <h2 id="texto">BIENVENIDO</h2>
+</section>
+
+<div class="sec" id="sec" style="text-align: center">
+    <h2>Diagramas de Modelado</h2>
+    <p>A continuación se presentan los diagramas UML y BPMN correspondientes:</p>
+
+    <!-- UML -->
+    <h3>Diagrama UML</h3>
+    <img src="{{ url_for('static', filename='images/UML.png') }}" alt="Diagrama UML" style="max-width:80%;">
+
+    <!-- BPMN -->
+    <h3>Diagrama BPMN</h3>
+    <img src="{{ url_for('static', filename='images/BPMN.png') }}" alt="Diagrama BPMN" style="max-width:80%;">
+
+</div>
+
+<footer class="pie">
+  <div class="pie2">
+    <img class="footer-logo" src="{{ url_for('static', filename='images/SI.png') }}" alt="logo SI">
+    <p class="footer-texto">MIS GROUP 18</p>
+  </div>
+  <div class="derechos-de-autor">
+    Creado por Grupo 18 ©
+  </div>
+</footer>
+
+</body>
+</html>

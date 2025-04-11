@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Práctica 2</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/MIS.css') }}">
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">Análisis Incidencias</a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/resultados">Resultados</a></li>
+        <li><a href="/practica2" class="active">Práctica 2</a></li>
+        <li><a href="/vulnerabilidades">Vulnerabilidades</a></li>
+    </ul>
+</header>
+
+<section class="top">
+    <h2 id="texto">Práctica 2</h2>
+</section>
+
+<div class="sec" id="sec" style="text-align: center">
+    <p>
+    Utilice los filtros siguientes para personalizar la vista del dashboard. Puede incluir, si lo desea, los empleados con mayor dedicación en la resolución de incidencias.
+    </p>
+    <!-- Formulario para seleccionar visualización -->
+    <form method="get" action="/practica2">
+        <label><input type="radio" name="ver" value="clientes" {% if ver == 'clientes' %}checked{% endif %}> Top Clientes</label>
+        <label><input type="radio" name="ver" value="tipos" {% if ver == 'tipos' %}checked{% endif %}> Tipos de Incidencia</label>
+        <label><input type="radio" name="ver" value="empleados" {% if ver == 'empleados' %}checked{% endif %}> Empleados</label>
+        <label><input type="radio" name="ver" value="todo" {% if ver == 'todo' %}checked{% endif %}> Ver Todo</label>
+        <button type="submit">Mostrar</button>
+    </form>
+
+    <hr>
+
+    {% if ver in ['clientes', 'todo'] %}
+    <section>
+        <h3>Top Clientes con más incidencias reportadas</h3>
+        <div class="agrupacion">{{ top_clientes | safe }}</div>
+    </section>
+    {% endif %}
+
+    {% if ver in ['tipos', 'todo'] %}
+    <section>
+        <h3>Top Tipos de Incidencias con mayor tiempo de resolución</h3>
+        <div class="agrupacion">{{ top_tipos_tiempo | safe }}</div>
+    </section>
+    {% endif %}
+
+    {% if ver in ['empleados', 'todo'] %}
+    <section>
+        <h3>Empleados que más tiempo dedican a resolver incidencias</h3>
+        <div class="agrupacion">{{ tiempo_empleado | safe }}</div>
+    </section>
+    {% endif %}
+</div>
+
+<footer class="pie">
+  <div class="pie2">
+    <img class="footer-logo" src="{{ url_for('static', filename='images/SI.png') }}" alt="logo SI">
+    <p class="footer-texto">MIS GROUP 18</p>
+  </div>
+  <div class="derechos-de-autor">
+    Creado por Grupo S18 ©
+  </div>
+</footer>
+
+</body>
+</html>
