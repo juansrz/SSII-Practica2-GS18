@@ -339,3 +339,24 @@ form button:hover {
     border-bottom: 1px solid #333;
     line-height: 1.4em;
 }
+/* Botón de descarga de PDF */
+.btn {
+    display: inline-block;
+    background-color: #FFA500;
+    color: #0a0a23;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    margin: 20px auto;
+}
+
+.btn:hover {
+    background-color: #e69500;
+    transform: scale(1.03);
+    color: #fff;
+}

@@ -209,7 +209,7 @@ print(f"Mediana: {mediana_dia}, Media: {media_dia}, Varianza: {varianza_dia}, Ma
 # Duración de incidencias de fraude
 # ----------------------------------------------------------------------
 
-df_fraude["duracion_dias"] = (df_fraude["fecha_cierre"] - df_fraude["fecha_apertura"]).dt.days
+df_fraude.loc[:, "duracion_dias"] = (df_fraude["fecha_cierre"] - df_fraude["fecha_apertura"]).dt.days
 
 mediana_duracion_fraude = df_fraude["duracion_dias"].median()
 media_duracion_fraude = df_fraude["duracion_dias"].mean()

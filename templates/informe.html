@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Informe de Incidencias</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+
+        .portada {
+            page-break-after: always;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .logos img {
+            height: 100px;
+        }
+
+        .titulo {
+            font-size: 26pt;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .subtitulo {
+            font-style: italic;
+            font-size: 12pt;
+            color: #555;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .footer-portada {
+            font-size: 10pt;
+            color: #777;
+            text-align: left;
+            margin-top: 100px;
+        }
+
+        h2 {
+            color: #1a237e;
+            font-size: 18pt;
+            border-bottom: 2px solid #1a237e;
+            padding-bottom: 5px;
+            margin-top: 40px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .table th, .table td {
+            border: 1px solid #333;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #dbe4f0;
+            font-weight: bold;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .indice a {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Portada -->
+<div class="portada">
+    <div class="logos">
+        <img src="{{ urjc_logo }}" alt="URJC Logo">
+        <img src="{{ si_logo }}" alt="SI Logo">
+    </div>
+    <div class="titulo">Informe de Análisis de Incidencias</div>
+    <div class="subtitulo">Generado el {{ fecha }}</div>
+    <div class="footer-portada">Grupo S18</div>
+</div>
+
+<!-- Índice -->
+<div class="pagina" style="page-break-after: always;">
+    <h2>Índice</h2>
+    <ol class="indice">
+        {% for seccion in secciones %}
+        <li><a href="#{{ seccion.id }}">{{ loop.index }}. {{ seccion.titulo }}</a></li>
+        {% endfor %}
+    </ol>
+</div>
+
+<!-- Contenido -->
+{% for seccion in secciones %}
+<div class="pagina" {% if not loop.last %}style="page-break-after: always;"{% endif %}>
+    <a name="{{ seccion.id }}"></a>
+    <h2>{{ loop.index }}. {{ seccion.titulo }}</h2>
+    {{ seccion.contenido | safe }}
+</div>
+{% endfor %}
+
+</body>
+</html>

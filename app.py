@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import analisis
 import analisis_Practica2 as analisis2
 import vulnerabilidades
+from xhtml2pdf import pisa
+from io import BytesIO
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -125,6 +128,55 @@ def practica2():
 def mostrar_vulnerabilidades():
     lista_cves = vulnerabilidades.obtener_ultimas_vulnerabilidades(10)
     return render_template("vulnerabilidades.html", cves=lista_cves)
+
+@app.route("/generar_pdf")
+def generar_pdf():
+    fecha_actual = datetime.now().strftime("%d/%m/%Y %H:%M")
+
+    # Construcción dinámica de secciones del informe
+    secciones = [
+        {
+            "id": "actuaciones",
+            "titulo": "Actuaciones por empleado",
+            "contenido": analisis.group_empleado.to_html(classes="table", index=False)
+        },
+        {
+            "id": "tiempo_inc",
+            "titulo": "Tiempo medio por tipo de incidencia",
+            "contenido": analisis2.obtener_top_tipos_tiempo().to_html(classes="table", index=False)
+        },
+        {
+            "id": "clientes_criticos",
+            "titulo": "Clientes más críticos",
+            "contenido": analisis2.obtener_top_clientes().to_html(classes="table", index=False)
+        },
+        {
+            "id": "tiempo_mant",
+            "titulo": "Tiempo medio de mantenimiento",
+            "contenido": analisis2.obtener_top_empleados_por_tiempo().to_html(classes="table", index=False)
+        }
+    ]
+
+    html = render_template(
+        "informe.html",
+        fecha=fecha_actual,
+        secciones=secciones,
+        urjc_logo="static/images/URJC.png",
+        si_logo="static/images/SI.png"
+    )
+
+    pdf = BytesIO()
+    pisa_status = pisa.CreatePDF(html, dest=pdf)
+
+    if pisa_status.err:
+        return "Error al generar PDF", 500
+
+    response = make_response(pdf.getvalue())
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = "inline; filename=informe_CMI.pdf"
+
+    return response
+
 
 if __name__ == "__main__":
     app.run(debug=True)
